@@ -688,7 +688,7 @@
         <a href="https://www.youtube.com/@Forzes-Stream" class="link-btn youtube" target="_blank">YouTube</a>
         <a href="https://discord.gg/invite" class="link-btn discord" target="_blank">Discord</a>
         <a href="https://www.donationalerts.com/r/forzesof" class="link-btn donate-btn" target="_blank">Донатить</a>
-        <a href="https://memealerts.com/655e170357eccc4d2f032b17" class="link-btn memes-btn">
+        <a href="https://memealerts.com/655e170357eccc4d2f032b17" class="link-btn memes-btn" target="_blank">
             <span class="btn-text">Мемы</span>
         </a>
         <a href="https://forzes12.github.io/ForzSite/" class="link-btn game-site-btn" target="_blank">
@@ -793,34 +793,7 @@
             }, 600);
         });
 
-        // Мемы - эффект смайликов
-        document.querySelector('.memes-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            const emojis = ['😂', '🤣', '😆', '😅', '😄', '😁', '😀', '😎', '🤪', '🥳'];
-            
-            for(let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const emoji = document.createElement('div');
-                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                    emoji.style.position = 'fixed';
-                    emoji.style.fontSize = '2em';
-                    emoji.style.left = Math.random() * window.innerWidth + 'px';
-                    emoji.style.top = '-50px';
-                    emoji.style.zIndex = '1000';
-                    emoji.style.pointerEvents = 'none';
-                    emoji.style.animation = `emojiRain ${Math.random() * 2 + 1}s linear forwards`;
-                    document.body.appendChild(emoji);
-                    
-                    setTimeout(() => {
-                        if(emoji.parentNode) document.body.removeChild(emoji);
-                    }, 3000);
-                }, i * 100);
-            }
-            
-            setTimeout(() => {
-                alert('Здесь будут мемы!');
-            }, 500);
-        });
+        // Мемы - кнопка для перехода по ссылке (без эффектов)
 
         // Game Site - эффект пикселей
         document.querySelector('.game-site-btn').addEventListener('mouseenter', function() {
