@@ -1,569 +1,1151 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forzes Stream</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        :root {
-            --pc-font-size-title: 4em;
-            --mobile-font-size-title: 2.5em;
-            --pc-avatar-size: 180px;
-            --mobile-avatar-size: 140px;
-            --pc-button-width: 300px;
-            --mobile-button-width: 90%;
-            --pc-padding: 40px 20px;
-            --mobile-padding: 20px 15px;
-            --pc-gap: 20px;
-            --mobile-gap: 15px;
-        }
+<title>Forzes Stream</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
-        body {
-            font-family: 'Orbitron', monospace;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+<style>
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(255, 0, 150, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
+:root {
+    --cyan: #00ffff;
+    --pink: #ff00ff;
+    --purple: #8b00ff;
+}
 
-        /* ========== ОБЩИЕ СТИЛИ ========== */
-        .container {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 20px;
-        }
+/* ================= ОСНОВА ================= */
 
-        header {
-            text-align: center;
-            padding: var(--pc-padding);
-            width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #ff00ff;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-            margin-bottom: 40px;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .nickname {
-            font-size: var(--pc-font-size-title);
-            margin: 0 0 20px 0;
-            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
-            color: #ffffff;
-            animation: glow 2s ease-in-out infinite alternate;
-            font-weight: 900;
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        .avatar {
-            width: var(--pc-avatar-size);
-            height: var(--pc-avatar-size);
-            border-radius: 50%;
-            background: url('assets/32PbU5bsSkOMI561TWeQfg@2k.webp') center/cover no-repeat;
-            margin: 0 auto;
-            border: 3px solid #00ffff;
-            box-shadow: 0 0 20px #00ffff;
-            animation: avatarPulse 3s ease-in-out infinite;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
 
-        /* ========== КНОПКИ В СТОЛБИК ========== */
-        .links-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--pc-gap);
-            width: 100%;
-            padding: 0 20px;
-            margin-bottom: 40px;
-        }
+    font-family: 'Orbitron', sans-serif;
+    color: white;
 
-        /* Общие стили кнопок */
-        .link-btn {
-            color: #fff;
-            padding: 18px 40px;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 1.2em;
-            transition: all 0.3s ease;
-            border: 2px solid;
-            text-align: center;
-            font-weight: 700;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            min-height: 60px;
-            width: var(--pc-button-width);
-            max-width: 100%;
-            margin: 0 auto;
-        }
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0,255,255,.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255,0,255,.12),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #050509 0%,
+            #0b0b18 45%,
+            #080812 100%
+        );
 
-        /* Иконки для кнопок */
-        .link-btn::before {
-            font-size: 1.3em;
-            min-width: 30px;
-            text-align: center;
-        }
+    background-attachment: fixed;
 
-        /* Стили кнопок по типу */
-        .vk {
-            background: linear-gradient(45deg, #4c75a3, #5b86b5, #6a97c7);
-            border-color: #4c75a3;
-        }
-        .vk::before { content: '👤'; }
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
 
-        .telegram {
-            background: linear-gradient(45deg, #0088cc, #0099dd, #00aaff);
-            border-color: #0088cc;
-        }
-        .telegram::before { content: '✈️'; }
+/* ================= ЧАСТИЦЫ ================= */
 
-        .youtube {
-            background: linear-gradient(45deg, #ff0000, #cc0000, #ff3333);
-            border-color: #ff0000;
-        }
-        .youtube::before { content: '▶'; }
+#particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
 
-        .discord {
-            background: linear-gradient(45deg, #5865f2, #677bc4, #7889d6);
-            border-color: #5865f2;
-        }
-        .discord::before { content: '💬'; }
+.particle {
+    position: absolute;
 
-        .donate-btn {
-            background: linear-gradient(45deg, #ff8c00, #ffa500, #ffcc00);
-            border-color: #ff8c00;
-        }
-        .donate-btn::before { content: '💰'; }
+    width: 3px;
+    height: 3px;
 
-        .memes-btn {
-            background: linear-gradient(45deg, #ff00ff, #ff00cc, #ff0099);
-            border-color: #ff00ff;
-        }
-        .memes-btn::before { content: '😂'; }
+    border-radius: 50%;
 
-        .game-site-btn {
-            background: linear-gradient(45deg, #00ff00, #00cc00, #00aa00);
-            border-color: #00ff00;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.9em;
-        }
-        .game-site-btn::before { content: '🎮'; }
+    background: #00ffff;
+    box-shadow: 0 0 10px #00ffff;
 
-        /* Эффекты при наведении (только для ПК) */
-        @media (hover: hover) {
-            .link-btn:hover {
-                transform: translateY(-5px) scale(1.05);
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-                filter: brightness(1.2);
-                letter-spacing: 2px;
-            }
-        }
+    animation: particleFloat linear infinite;
+}
 
-        /* Анимации */
-        @keyframes glow {
-            from { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
-            to { text-shadow: 0 0 30px #ff00ff, 0 0 60px #ff00ff; }
-        }
+@keyframes particleFloat {
+    from {
+        transform: translateY(110vh);
+    }
 
-        @keyframes avatarPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px #00ffff; }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px #00ffff; }
-        }
+    to {
+        transform: translateY(-10vh);
+    }
+}
 
-        @keyframes buttonFadeIn {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+/* ================= CONTAINER ================= */
 
-        /* Анимация появления кнопок */
-        .link-btn {
-            animation: buttonFadeIn 0.6s ease-out forwards;
-            opacity: 0;
-        }
+.container {
+    width: 100%;
+    max-width: 850px;
 
-        .link-btn:nth-child(1) { animation-delay: 0.1s; }
-        .link-btn:nth-child(2) { animation-delay: 0.2s; }
-        .link-btn:nth-child(3) { animation-delay: 0.3s; }
-        .link-btn:nth-child(4) { animation-delay: 0.4s; }
-        .link-btn:nth-child(5) { animation-delay: 0.5s; }
-        .link-btn:nth-child(6) { animation-delay: 0.6s; }
-        .link-btn:nth-child(7) { animation-delay: 0.7s; }
+    padding: 25px 20px 40px;
 
-        /* ========== МОБИЛЬНАЯ ВЕРСИЯ ========== */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-                max-width: 100%;
-            }
+    position: relative;
+    z-index: 2;
+}
 
-            header {
-                padding: var(--mobile-padding);
-                margin-bottom: 30px;
-                background: rgba(0, 0, 0, 0.9);
-                position: sticky;
-                top: 0;
-                z-index: 100;
-                backdrop-filter: blur(10px);
-            }
+/* ================= HEADER ================= */
 
-            .nickname {
-                font-size: var(--mobile-font-size-title);
-                text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
-                margin-bottom: 15px;
-            }
+header {
+    text-align: center;
 
-            .avatar {
-                width: var(--mobile-avatar-size);
-                height: var(--mobile-avatar-size);
-                border: 2px solid #00ffff;
-                box-shadow: 0 0 15px #00ffff;
-            }
+    padding: 35px 20px 40px;
+    margin-bottom: 35px;
 
-            /* Кнопки для мобильных */
-            .links-column {
-                gap: var(--mobile-gap);
-                padding: 0 15px;
-            }
+    border: 1px solid rgba(0,255,255,.4);
+    border-radius: 30px;
 
-            .link-btn {
-                width: var(--mobile-button-width);
-                max-width: 400px;
-                padding: 16px 25px;
-                font-size: 1.1em;
-                min-height: 55px;
-                border-radius: 15px;
-                margin: 0 auto;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            }
+    background: rgba(10,10,25,.75);
 
-            .link-btn::before {
-                font-size: 1.4em;
-                min-width: 35px;
-            }
+    backdrop-filter: blur(18px);
 
-            /* Увеличиваем область касания */
-            .link-btn:active {
-                transform: scale(0.98);
-                transition: transform 0.1s;
-            }
+    box-shadow:
+        0 0 30px rgba(0,255,255,.1),
+        inset 0 0 30px rgba(255,0,255,.04);
 
-            /* Оптимизация для планшетов */
-            @media (min-width: 481px) and (max-width: 768px) {
-                .link-btn {
-                    width: 80%;
-                    max-width: 350px;
-                    padding: 20px 35px;
-                    font-size: 1.3em;
-                }
-            }
+    overflow: hidden;
+}
 
-            /* Ландшафтная ориентация */
-            @media (orientation: landscape) and (max-height: 500px) {
-                header {
-                    padding: 10px 15px;
-                    margin-bottom: 20px;
-                }
-                
-                .avatar {
-                    width: 100px;
-                    height: 100px;
-                    margin: 10px auto;
-                }
-                
-                .links-column {
-                    gap: 10px;
-                    padding: 10px;
-                }
-                
-                .link-btn {
-                    padding: 12px 20px;
-                    min-height: 45px;
-                }
-                
-                .nickname {
-                    font-size: 2em;
-                    margin-bottom: 10px;
-                }
-            }
-        }
+.status {
+    display: inline-flex;
 
-        /* ========== ПК ВЕРСИЯ (большие экраны) ========== */
-        @media (min-width: 1400px) {
-            .container {
-                max-width: 1000px;
-            }
-            
-            .link-btn {
-                width: 350px;
-                padding: 22px 50px;
-                font-size: 1.3em;
-            }
-            
-            .nickname {
-                font-size: 5em;
-            }
-            
-            .avatar {
-                width: 220px;
-                height: 220px;
-            }
-        }
+    align-items: center;
+    gap: 8px;
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            border-top: 2px solid #00ffff;
-            margin-top: 40px;
-            font-size: 0.9em;
-        }
+    padding: 7px 14px;
+    margin-bottom: 18px;
 
-        /* Портретная ориентация для высоких экранов */
-        @media (min-height: 1000px) {
-            .links-column {
-                gap: 25px;
-            }
-            
-            .link-btn {
-                padding: 25px 40px;
-                min-height: 70px;
-                font-size: 1.3em;
-            }
-        }
+    border: 1px solid rgba(0,255,255,.35);
+    border-radius: 30px;
 
-        /* Улучшение читаемости на маленьких экранах */
-        @media (max-width: 360px) {
-            .link-btn {
-                font-size: 1em;
-                padding: 14px 20px;
-            }
-            
-            .link-btn::before {
-                font-size: 1.2em;
-                min-width: 25px;
-            }
-            
-            .nickname {
-                font-size: 2em;
-            }
-        }
+    color: #9fffff;
 
-        /* Плавная прокрутка */
-        html {
-            scroll-behavior: smooth;
-        }
+    font-size: .7rem;
+    letter-spacing: 3px;
+}
 
-        /* Убираем выделение на мобильных */
-        .link-btn {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-        }
+.status-dot {
+    width: 8px;
+    height: 8px;
 
-        /* Эффект загрузки */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: opacity 0.5s;
-        }
+    border-radius: 50%;
 
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #00ffff;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+    background: #00ff66;
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+    box-shadow: 0 0 12px #00ff66;
+
+    animation: statusPulse 1.4s infinite;
+}
+
+@keyframes statusPulse {
+    50% {
+        transform: scale(.6);
+        opacity: .4;
+    }
+}
+
+.nickname {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+
+    font-weight: 900;
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 30px #00ffff;
+
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow:
+            0 0 10px #00ffff,
+            0 0 25px #00ffff;
+    }
+
+    to {
+        text-shadow:
+            0 0 10px #ff00ff,
+            0 0 35px #ff00ff;
+    }
+}
+
+.subtitle {
+    margin-top: 12px;
+
+    color: #77778f;
+
+    font-size: .75rem;
+    letter-spacing: 4px;
+}
+
+/* ================= АВАТАР ================= */
+
+.avatar-wrapper {
+    width: 190px;
+    height: 190px;
+
+    margin: 35px auto 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+.avatar-wrapper::before,
+.avatar-wrapper::after {
+    content: "";
+
+    position: absolute;
+
+    border-radius: 50%;
+    border: 1px solid #00ffff;
+
+    inset: -10px;
+
+    animation: ringRotate 8s linear infinite;
+}
+
+.avatar-wrapper::after {
+    inset: -18px;
+
+    border-color: #ff00ff;
+
+    animation-direction: reverse;
+    animation-duration: 12s;
+}
+
+@keyframes ringRotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.avatar {
+    width: 175px;
+    height: 175px;
+
+    border-radius: 50%;
+
+    background:
+        url('assets/32PbU5bsSkOMI561TWeQfg@2k.webp')
+        center / cover no-repeat;
+
+    border: 3px solid #00ffff;
+
+    box-shadow:
+        0 0 20px #00ffff,
+        0 0 45px rgba(0,255,255,.4);
+
+    transition: transform .15s ease;
+}
+
+/* ================= КНОПКИ ================= */
+
+.links-column {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+.link-btn {
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+    min-height: 68px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    padding: 18px 25px;
+
+    color: white;
+    text-decoration: none;
+
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 18px;
+
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    backdrop-filter: blur(12px);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        filter .3s ease;
+
+    opacity: 0;
+
+    animation: buttonAppear .5s ease forwards;
+}
+
+.link-btn:nth-child(1) { animation-delay: .05s; }
+.link-btn:nth-child(2) { animation-delay: .10s; }
+.link-btn:nth-child(3) { animation-delay: .15s; }
+.link-btn:nth-child(4) { animation-delay: .20s; }
+.link-btn:nth-child(5) { animation-delay: .25s; }
+.link-btn:nth-child(6) { animation-delay: .30s; }
+.link-btn:nth-child(7) { animation-delay: .35s; }
+.link-btn:nth-child(8) { animation-delay: .40s; }
+
+@keyframes buttonAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.icon {
+    position: relative;
+    z-index: 2;
+
+    font-size: 1.4rem;
+
+    transition:
+        transform .4s ease,
+        filter .4s ease;
+}
+
+.link-btn span:last-child {
+    position: relative;
+    z-index: 2;
+}
+
+/* ================= VK ================= */
+
+.vk {
+    background: linear-gradient(
+        120deg,
+        rgba(76,117,163,.9),
+        rgba(76,117,163,.3)
+    );
+
+    border-color: #4c75a3;
+}
+
+@media (hover:hover) {
+
+    .vk:hover {
+        transform: translateX(8px);
+
+        box-shadow:
+            0 0 25px rgba(76,117,163,.7),
+            inset 0 0 25px rgba(255,255,255,.08);
+    }
+
+    .vk:hover .icon {
+        transform: rotate(-15deg) scale(1.25);
+    }
+}
+
+/* ================= TELEGRAM ================= */
+
+.telegram {
+    background: linear-gradient(
+        120deg,
+        rgba(0,136,204,.9),
+        rgba(0,136,204,.3)
+    );
+
+    border-color: #00aaff;
+}
+
+@media (hover:hover) {
+
+    .telegram:hover {
+        transform: translateX(8px);
+
+        box-shadow:
+            0 0 30px rgba(0,170,255,.7);
+    }
+
+    .telegram:hover .icon {
+        transform:
+            translate(8px,-5px)
+            rotate(-15deg)
+            scale(1.25);
+    }
+}
+
+/* ================= YOUTUBE ================= */
+
+.youtube {
+    background: linear-gradient(
+        120deg,
+        rgba(255,0,0,.9),
+        rgba(120,0,0,.4)
+    );
+
+    border-color: #ff3333;
+}
+
+@media (hover:hover) {
+
+    .youtube:hover {
+        transform: scale(1.025);
+
+        box-shadow:
+            0 0 30px rgba(255,0,0,.75);
+    }
+
+    .youtube:hover .icon {
+        transform: scale(1.35);
+
+        filter:
+            drop-shadow(0 0 10px #ff0000);
+    }
+}
+
+/* ================= DISCORD ================= */
+
+.discord {
+    background: linear-gradient(
+        120deg,
+        rgba(88,101,242,.9),
+        rgba(88,101,242,.35)
+    );
+
+    border-color: #7380ff;
+
+    box-shadow:
+        0 0 0 rgba(88,101,242,0);
+}
+
+/* Неоновая линия */
+
+.discord::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.35),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left .6s ease;
+
+    pointer-events: none;
+}
+
+/* Наведение */
+
+@media (hover:hover) {
+
+    .discord:hover {
+
+        transform: translateY(-4px) scale(1.02);
+
+        border-color: #9da7ff;
+
+        box-shadow:
+            0 0 15px rgba(88,101,242,.7),
+            0 0 35px rgba(88,101,242,.4),
+            inset 0 0 20px rgba(255,255,255,.05);
+
+        filter: brightness(1.15);
+    }
+
+    /* Свет проходит по кнопке */
+
+    .discord:hover::after {
+        left: 130%;
+    }
+
+    /* Иконка подпрыгивает */
+
+    .discord:hover .icon {
+        animation: discordBounce .55s ease;
+    }
+}
+
+/* Анимация Discord */
+
+@keyframes discordBounce {
+
+    0% {
+        transform: translateY(0) rotate(0) scale(1);
+    }
+
+    30% {
+        transform: translateY(-7px) rotate(-8deg) scale(1.15);
+    }
+
+    55% {
+        transform: translateY(2px) rotate(6deg) scale(1.05);
+    }
+
+    75% {
+        transform: translateY(-3px) rotate(-3deg) scale(1.1);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0) scale(1);
+    }
+}
+
+/* ================= ДОНАТ ================= */
+
+.donate-btn {
+    background: linear-gradient(
+        120deg,
+        rgba(255,140,0,.95),
+        rgba(255,40,0,.45)
+    );
+
+    border-color: #ffae00;
+}
+
+@media (hover:hover) {
+
+    .donate-btn:hover {
+        transform: translateY(-5px) scale(1.02);
+
+        box-shadow:
+            0 0 30px rgba(255,140,0,.8),
+            0 10px 35px rgba(255,80,0,.4);
+    }
+
+    .donate-btn:hover .icon {
+        animation: coinSpin .6s ease;
+    }
+}
+
+@keyframes coinSpin {
+
+    0% {
+        transform: rotateY(0) scale(1);
+    }
+
+    50% {
+        transform: rotateY(180deg) scale(1.3);
+    }
+
+    100% {
+        transform: rotateY(360deg) scale(1);
+    }
+
+}
+
+/* ================= ПОМОЩЬ ================= */
+
+.help-btn {
+    background: linear-gradient(
+        120deg,
+        rgba(255,0,180,.9),
+        rgba(130,0,255,.5)
+    );
+
+    border-color: #ff35d0;
+}
+
+@media (hover:hover) {
+
+    .help-btn:hover {
+        transform: scale(1.025);
+
+        box-shadow:
+            0 0 35px rgba(255,0,200,.75);
+    }
+
+    .help-btn:hover .icon {
+        animation: heartBeat .7s infinite;
+    }
+}
+
+@keyframes heartBeat {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.35);
+    }
+
+    45% {
+        transform: scale(1);
+    }
+
+    65% {
+        transform: scale(1.25);
+    }
+
+}
+
+/* ================= МЕМЫ ================= */
+
+.memes-btn {
+    background: linear-gradient(
+        120deg,
+        rgba(255,0,255,.9),
+        rgba(100,0,180,.45)
+    );
+
+    border-color: #ff00ff;
+}
+
+@media (hover:hover) {
+
+    .memes-btn:hover {
+        transform: rotate(-1deg) scale(1.025);
+
+        box-shadow:
+            0 0 35px rgba(255,0,255,.75);
+    }
+
+    .memes-btn:hover .icon {
+        animation: memeSpin .6s ease;
+    }
+}
+
+@keyframes memeSpin {
+
+    0% {
+        transform: rotate(0) scale(1);
+    }
+
+    50% {
+        transform: rotate(20deg) scale(1.4);
+    }
+
+    100% {
+        transform: rotate(0) scale(1);
+    }
+
+}
+
+/* ================= ИГРЫ ================= */
+
+.game-site-btn {
+    background: linear-gradient(
+        120deg,
+        rgba(0,255,120,.85),
+        rgba(0,120,60,.4)
+    );
+
+    border-color: #00ff88;
+
+    font-family: 'Press Start 2P', cursive;
+    font-size: .75rem;
+}
+
+@media (hover:hover) {
+
+    .game-site-btn:hover {
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 0 35px rgba(0,255,120,.7);
+
+        border-color: #ffffff;
+    }
+
+    .game-site-btn:hover .icon {
+        animation: gameShake .3s infinite;
+    }
+}
+
+@keyframes gameShake {
+
+    0%   { transform: translate(0); }
+    25%  { transform: translate(-3px,2px); }
+    50%  { transform: translate(3px,-2px); }
+    75%  { transform: translate(-2px,-1px); }
+    100% { transform: translate(0); }
+
+}
+
+/* ================= RIPPLE ================= */
+
+.ripple {
+    position: absolute;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.35);
+
+    pointer-events: none;
+
+    transform: scale(0);
+
+    animation: ripple .6s linear;
+}
+
+@keyframes ripple {
+
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+
+}
+
+/* ================= FOOTER ================= */
+
+footer {
+    margin-top: 35px;
+    padding: 25px 10px;
+
+    text-align: center;
+
+    color: #55556a;
+
+    font-size: .7rem;
+    letter-spacing: 2px;
+}
+
+footer strong {
+    color: #8888a5;
+}
+
+/* ================= ПРЕЛОАДЕР ================= */
+
+#loading {
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #050509;
+
+    transition: opacity .25s ease;
+}
+
+.loader-logo {
+    font-size: clamp(2rem,7vw,4rem);
+
+    font-weight: 900;
+
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 30px #00ffff;
+}
+
+.loader-text {
+    margin-top: 12px;
+
+    color: #555;
+
+    font-size: .65rem;
+    letter-spacing: 3px;
+}
+
+.loader-bar {
+    width: 180px;
+    height: 2px;
+
+    margin-top: 15px;
+
+    background: rgba(255,255,255,.08);
+
+    overflow: hidden;
+}
+
+.loader-progress {
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #00ffff,
+        #ff00ff
+    );
+
+    animation: loaderProgress .3s linear;
+}
+
+@keyframes loaderProgress {
+
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:600px) {
+
+    .container {
+    width: 100%;
+    max-width: 850px;
+
+    padding: 25px 20px 40px;
+
+    position: relative;
+    z-index: 2;
+
+    background: transparent;
+}
+
+    header {
+        padding: 25px 15px 35px;
+        border-radius: 24px;
+    }
+
+    .nickname {
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        font-size: .62rem;
+        letter-spacing: 2px;
+    }
+
+    .avatar-wrapper {
+        width: 155px;
+        height: 155px;
+    }
+
+    .avatar {
+        width: 145px;
+        height: 145px;
+    }
+
+    .link-btn {
+        min-height: 62px;
+        border-radius: 16px;
+        font-size: .9rem;
+    }
+
+    .game-site-btn {
+        font-size: .58rem;
+    }
+
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+
+}
+
+</style>
 </head>
+
 <body>
-    <div class="loading" id="loading">
-        <div class="loading-spinner"></div>
+
+<div id="loading">
+    <div class="loader-logo">FORZES</div>
+
+    <div class="loader-text">
+        SYSTEM READY
     </div>
 
-    <div class="container">
-        <header>
-            <h1 class="nickname">Forzes Stream</h1>
-            <div class="avatar"></div>
-        </header>
+    <div class="loader-bar">
+        <div class="loader-progress"></div>
+    </div>
+</div>
 
-        <section class="links-column">
-            <a href="https://vk.com/id844636088" class="link-btn vk" target="_blank">VK</a>
-            <a href="https://t.me/+ptO8T5KbpPoyNzli" class="link-btn telegram" target="_blank">Telegram</a>
-            <a href="https://www.youtube.com/@Forzes-Stream" class="link-btn youtube" target="_blank">YouTube</a>
-            <a href="https://discord.gg/rJ6g8wRz" class="link-btn discord" target="_blank">Discord</a>
-            <a href="https://donatex.gg/donate/forzesof" class="link-btn donate-btn" target="_blank">Донат</a>
-            <a href="https://memealerts.com/655e170357eccc4d2f032b17" class="link-btn memes-btn" target="_blank">Мемы</a>
-            <a href="https://forzes12.github.io/ForzSite/" class="link-btn game-site-btn" target="_blank">Мой сайт с играми для Пк</a>
-        </section>
+<div id="particles"></div>
+
+<main class="container">
+
+<header>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        ONLINE
     </div>
 
-    <script>
-        // Убираем прелоадер
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const loading = document.getElementById('loading');
-                loading.style.opacity = '0';
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                }, 500);
-            }, 500);
-        });
+    <h1 class="nickname">
+        Forzes Stream
+    </h1>
 
-        // Адаптивные эффекты
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.link-btn');
-            const isMobile = window.innerWidth <= 768;
-            
-            // Добавляем вибрацию на мобильных
-            if (isMobile && 'vibrate' in navigator) {
-                buttons.forEach(btn => {
-                    btn.addEventListener('touchstart', () => {
-                        navigator.vibrate(30);
-                    });
-                });
-            }
-            
-            // Эффект клика с волной
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const ripple = document.createElement('span');
-                    ripple.style.cssText = `
-                        position: absolute;
-                        background: rgba(255, 255, 255, 0.3);
-                        border-radius: 50%;
-                        transform: scale(0);
-                        animation: ripple 0.6s linear;
-                        pointer-events: none;
-                        width: ${isMobile ? '50px' : '100px'};
-                        height: ${isMobile ? '50px' : '100px'};
-                        top: ${y - (isMobile ? 25 : 50)}px;
-                        left: ${x - (isMobile ? 25 : 50)}px;
-                        z-index: 0;
-                    `;
-                    
-                    this.appendChild(ripple);
-                    setTimeout(() => ripple.remove(), 600);
-                    
-                    // На мобильных - эффект нажатия
-                    if (isMobile) {
-                        this.style.transform = 'scale(0.96)';
-                        setTimeout(() => {
-                            this.style.transform = '';
-                        }, 150);
-                    }
-                });
-            });
-            
-            // Эффект параллакса для ПК
-            if (!isMobile) {
-                window.addEventListener('mousemove', function(e) {
-                    const x = (e.clientX / window.innerWidth - 0.5) * 10;
-                    const y = (e.clientY / window.innerHeight - 0.5) * 10;
-                    
-                    document.querySelector('.avatar').style.transform = 
-                        `translate(${x}px, ${y}px) scale(1.05)`;
-                });
-            }
-            
-            // Следим за изменением размера окна
-            let resizeTimer;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 250);
-            });
-            
-            // Добавляем стили для ripple эффекта
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-                
-                /* Улучшение производительности на мобильных */
-                @media (max-width: 768px) {
-                    .link-btn {
-                        will-change: transform;
-                    }
-                }
-                
-                /* Отключаем анимации при уменьшенном движении */
-                @media (prefers-reduced-motion: reduce) {
-                    * {
-                        animation-duration: 0.01ms !important;
-                        animation-iteration-count: 1 !important;
-                        transition-duration: 0.01ms !important;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-        
-        // Определяем тип устройства для дополнительных эффектов
-        function getDeviceType() {
-            const ua = navigator.userAgent;
-            if (/mobile|android|iphone|ipad/i.test(ua)) {
-                return 'mobile';
-            }
-            return 'desktop';
-        }
-        
-        // Сохраняем тип устройства в localStorage для оптимизации
-        localStorage.setItem('deviceType', getDeviceType());
-    </script>
+    <p class="subtitle">
+        Gaming • Stream • Entertainment
+    </p>
+
+    <div class="avatar-wrapper">
+        <div class="avatar"></div>
+    </div>
+
+</header>
+
+<section>
+
+    <div class="links-column">
+
+        <a
+            href="https://vk.com/id844636088"
+            class="link-btn vk"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">👤</span>
+            <span>VK</span>
+        </a>
+
+        <a
+            href="https://t.me/+ptO8T5KbpPoyNzli"
+            class="link-btn telegram"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">✈️</span>
+            <span>Telegram</span>
+        </a>
+
+        <a
+            href="https://www.youtube.com/@Forzes-Stream"
+            class="link-btn youtube"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">▶️</span>
+            <span>YouTube</span>
+        </a>
+
+        <a
+            href="https://discord.gg/rJ6g8wRz"
+            class="link-btn discord"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">💬</span>
+            <span>Discord</span>
+        </a>
+
+        <a
+            href="https://donatex.gg/donate/forzesof"
+            class="link-btn donate-btn"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">💰</span>
+            <span>Донат</span>
+        </a>
+
+        <a
+            href="https://donatex.gg/donate/forzes_1"
+            class="link-btn help-btn"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">❤️</span>
+            <span>Донат (Помощь)</span>
+        </a>
+
+        <a
+            href="https://memealerts.com/655e170357eccc4d2f032b17"
+            class="link-btn memes-btn"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">😂</span>
+            <span>Мемы</span>
+        </a>
+
+        <a
+            href="https://forzes12.github.io/ForzSite/"
+            class="link-btn game-site-btn"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="icon">🎮</span>
+            <span>МОЙ САЙТ С ИГРАМИ ДЛЯ ПК</span>
+        </a>
+
+    </div>
+
+</section>
+
+<footer>
+    <strong>FORZES STREAM</strong>
+    <br><br>
+    © 2026 • Все права защищены
+</footer>
+
+</main>
+
+<script>
+
+/* ================= БЫСТРАЯ ЗАГРУЗКА ================= */
+
+window.addEventListener("load", () => {
+
+    const loading = document.getElementById("loading");
+
+    setTimeout(() => {
+
+        loading.style.opacity = "0";
+
+        setTimeout(() => {
+            loading.remove();
+        }, 250);
+
+    }, 300);
+
+});
+
+
+/* ================= ЧАСТИЦЫ ================= */
+
+const particles = document.getElementById("particles");
+
+for (let i = 0; i < 35; i++) {
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left =
+        Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+        5 + Math.random() * 10 + "s";
+
+    particle.style.animationDelay =
+        Math.random() * 8 + "s";
+
+    particle.style.opacity =
+        .2 + Math.random() * .6;
+
+    particles.appendChild(particle);
+}
+
+
+/* ================= RIPPLE ================= */
+
+document.querySelectorAll(".link-btn").forEach(button => {
+
+    button.addEventListener("click", function(e) {
+
+        const rect = this.getBoundingClientRect();
+
+        const ripple = document.createElement("span");
+
+        ripple.className = "ripple";
+
+        const size =
+            Math.max(rect.width, rect.height);
+
+        ripple.style.width = size + "px";
+        ripple.style.height = size + "px";
+
+        ripple.style.left =
+            e.clientX - rect.left - size / 2 + "px";
+
+        ripple.style.top =
+            e.clientY - rect.top - size / 2 + "px";
+
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+
+    });
+
+});
+
+
+/* ================= ВИБРАЦИЯ ================= */
+
+if (
+    window.innerWidth <= 768 &&
+    "vibrate" in navigator
+) {
+
+    document.querySelectorAll(".link-btn").forEach(button => {
+
+        button.addEventListener(
+            "touchstart",
+            () => navigator.vibrate(20)
+        );
+
+    });
+
+}
+
+
+/* ================= ПАРАЛЛАКС АВАТАРКИ ================= */
+
+if (window.innerWidth > 768) {
+
+    const avatar =
+        document.querySelector(".avatar");
+
+    document.addEventListener("mousemove", e => {
+
+        const x =
+            (e.clientX / window.innerWidth - .5) * 10;
+
+        const y =
+            (e.clientY / window.innerHeight - .5) * 10;
+
+        avatar.style.transform =
+            `translate(${x}px, ${y}px)`;
+
+    });
+
+}
+
+</script>
+
 </body>
 </html>
+```
